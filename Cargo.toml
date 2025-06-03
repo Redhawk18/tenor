@@ -5,16 +5,16 @@ edition = "2024"
 
 [dev-dependencies]
 dotenv = "0.15.0"
-serde_path_to_error = "0.1.17"
-tokio = { version = "1.45.1", features = ["macros"] }
+serde_path_to_error = "0.1"
+tokio = { version = "1", features = ["macros"] }
 
 [dependencies]
-codes-iso-3166 = "0.1.5"
-codes-iso-639 = "0.1.5"
-dotenv = "0.15.0"
-reqwest = { version = "0.12.18", features = ["json"] }
-secrecy = { version = "0.10.3", features = ["serde"] }
-serde = { version = "1.0.219", features = ["derive"] }
-serde_json = "1.0.140"
-thiserror = "2.0.12"
-tracing = "0.1.41"
+codes-iso-639 = "0.1"
+codes-iso-3166 = "0.1"
+dotenv = "0.15"
+reqwest = { version = "0.12", features = ["json"] }
+secrecy = { version = "0.10", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2"
+tracing = "0.1"
