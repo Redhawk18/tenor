@@ -8,5 +8,5 @@ pub struct Parameters {
     pub ar_range: ArRange,
     pub content_filter: ContentFilter,
     pub limit: Limit,
-    // pub position
+    pub position: Option<String>,
 }

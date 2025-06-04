@@ -12,6 +12,7 @@ pub struct Parameters {
     pub ar_range: ArRange,
     pub random: bool,
     pub limit: Limit,
+    pub position: Option<String>,
 }
 
 impl Default for Parameters {
@@ -24,6 +25,7 @@ impl Default for Parameters {
             ar_range: ArRange::default(),
             random: false,
             limit: DEFAULT_LIMIT,
+            position: None,
         }
     }
 }

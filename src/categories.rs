@@ -1,3 +1,4 @@
+use codes_iso_639::part_1::LanguageCode;
 use serde::{Deserialize, Serialize};
 
 use crate::ContentFilter;
@@ -18,7 +19,7 @@ pub enum Type {
 }
 
 impl Type {
-    pub fn to_query_parameter(&self) -> String {
+    pub(crate) fn to_query_parameter(&self) -> String {
         format!(
             "&type={}",
             match self {
@@ -31,7 +32,7 @@ impl Type {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Response {
-    pub locale: String,
+    pub locale: LanguageCode,
     pub tags: Vec<Tag>,
 }
 

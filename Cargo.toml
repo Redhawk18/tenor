@@ -1,7 +1,11 @@
 [package]
 name = "tenor"
+description = "Rust api for Tenor.com"
 version = "0.1.0"
 edition = "2024"
+categories = [ "api-bindings", "web-programming" ] 
+keywords = [ "api", "google", "tenor" ]
+license = "MIT"
 
 [dev-dependencies]
 dotenv = "0.15.0"
@@ -9,7 +13,7 @@ serde_path_to_error = "0.1"
 tokio = { version = "1", features = ["macros"] }
 
 [dependencies]
-codes-iso-639 = "0.1"
+codes-iso-639 = { version = "0.1", features = ["serde"], git = "https://github.com/Redhawk18/rust-codes.git" }
 codes-iso-3166 = "0.1"
 dotenv = "0.15"
 reqwest = { version = "0.12", features = ["json"] }

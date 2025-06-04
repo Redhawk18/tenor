@@ -8,7 +8,10 @@ use crate::*;
 #[tokio::test]
 async fn categories() {
     assert!(dotenv().is_ok());
-    let tenor = tenor::Tenor::new(env::var("API_KEY").expect("Failed to find env file"));
+    let tenor = tenor::Tenor::new(
+        env::var("API_KEY").expect("Failed to find env file"),
+        Locale::default(),
+    );
     let response = tenor.categories().await;
 
     dbg!("{}", &response);
@@ -18,7 +21,10 @@ async fn categories() {
 #[tokio::test]
 async fn featured() {
     assert!(dotenv().is_ok());
-    let tenor = tenor::Tenor::new(env::var("API_KEY").expect("Failed to find env file"));
+    let tenor = tenor::Tenor::new(
+        env::var("API_KEY").expect("Failed to find env file"),
+        Locale::default(),
+    );
     let response = tenor.featured().await;
 
     dbg!("{}", &response);
@@ -28,7 +34,10 @@ async fn featured() {
 #[tokio::test]
 async fn search() {
     assert!(dotenv().is_ok());
-    let tenor = tenor::Tenor::new(env::var("API_KEY").expect("Failed to find env file"));
+    let tenor = tenor::Tenor::new(
+        env::var("API_KEY").expect("Failed to find env file"),
+        Locale::default(),
+    );
     let response = tenor.search("excited".to_string()).await;
 
     dbg!("{}", &response);
@@ -38,14 +47,17 @@ async fn search() {
 #[tokio::test]
 async fn search_parameters() {
     assert!(dotenv().is_ok());
-    let tenor = tenor::Tenor::new(env::var("API_KEY").expect("Failed to find env file"));
+    let tenor = tenor::Tenor::new(
+        env::var("API_KEY").expect("Failed to find env file"),
+        Locale::new(LanguageCode::Ja, CountryCode::JP),
+    );
 
     let parms = search::Parameters {
         content_filter: ContentFilter::Medium,
         media_filter: Some(&[MediaFilter::Gif, MediaFilter::Mp4]),
         ar_range: ArRange::Standard,
         random: true,
-        limit: 45,
+        limit: 2,
         ..Default::default()
     };
     let response = tenor
@@ -60,7 +72,10 @@ async fn search_parameters() {
 async fn trending() {
     assert!(dotenv().is_ok());
 
-    let tenor = tenor::Tenor::new(env::var("API_KEY").expect("Failed to find env file"));
+    let tenor = tenor::Tenor::new(
+        env::var("API_KEY").expect("Failed to find env file"),
+        Locale::default(),
+    );
     let response = tenor.trending().await;
 
     dbg!("{}", &response);

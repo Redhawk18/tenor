@@ -1,13 +1,15 @@
 pub mod categories;
 pub mod featured;
 pub mod search;
+#[doc(hidden)]
 pub mod tenor;
 pub mod trending;
 
 use std::fmt;
 
-use codes_iso_639::part_1::LanguageCode;
-use codes_iso_3166::part_1::CountryCode;
+pub use codes_iso_639::part_1::LanguageCode;
+pub use codes_iso_3166::part_1::CountryCode;
+
 pub use tenor::Tenor;
 
 #[cfg(test)]
@@ -23,6 +25,7 @@ pub const DEFAULT_LIMIT: Limit = 20;
 /// Fetch up to the specified number of results, and the maximum value is 50 inclusive.
 pub const MAX_LIMIT: Limit = 50;
 
+/// Error.
 #[derive(Error, Debug)]
 pub enum Error {
     #[error(transparent)]
@@ -47,7 +50,7 @@ pub enum ArRange {
 }
 
 impl ArRange {
-    pub fn to_query_parameter(&self) -> String {
+    pub(crate) fn to_query_parameter(&self) -> String {
         format!(
             "&ar_range={}",
             match self {
@@ -71,7 +74,7 @@ pub enum ContentFilter {
 }
 
 impl ContentFilter {
-    pub fn to_query_parameter(&self) -> String {
+    pub(crate) fn to_query_parameter(&self) -> String {
         format!(
             "&contentfilter={}",
             match self {
@@ -98,8 +101,12 @@ impl Locale {
         Self { language, country }
     }
 
-    pub fn to_query_parameter(&self) -> String {
-        format!("&locate={}", self.to_string())
+    pub(crate) fn to_query_parameter(&self) -> String {
+        format!(
+            "&country={}&locate={}",
+            self.country.to_string().to_uppercase(),
+            self.to_string()
+        )
     }
 }
 
@@ -216,7 +223,7 @@ pub enum SearchFilter {
 }
 
 impl SearchFilter {
-    pub fn to_query_parameter(&self) -> String {
+    pub(crate) fn to_query_parameter(&self) -> String {
         format!(
             "&searchfilter={}",
             match self {
