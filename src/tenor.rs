@@ -4,6 +4,7 @@ use tracing::{debug, error};
 use crate::{Error, Locale, categories, featured, search, trending};
 
 /// Immutable type holding the api key along with region and language codes.
+#[derive(Debug, Clone)]
 pub struct Tenor {
     api_key: String,
     locale: Locale,
@@ -11,34 +12,70 @@ pub struct Tenor {
 
 impl Tenor {
     /// Creates a new instance.
+    #[must_use]
     pub fn new(api_key: String, locale: Locale) -> Self {
         Self { api_key, locale }
     }
 
-    /// Returns a vector of tagged categories.
-    pub async fn categories(&self) -> Result<categories::Response, Error> {
+    /// Returns a vector of tagged categories that are featured.
+    #[must_use]
+    pub async fn categories_featured(&self) -> Result<categories::Response, Error> {
         let url = format!(
-            "https://tenor.googleapis.com/v2/categories?key={}{}",
+            "https://tenor.googleapis.com/v2/categories?key={}{}{}",
             self.api_key,
             self.locale.to_query_parameter(),
+            "&type=featured",
         );
 
         self.categories_request(url).await
     }
 
-    /// Returns a vector of tagged categories with extra input parameters.
-    pub async fn categories_with_parameters(
+    /// Returns a vector of tagged categories that are trending.
+    #[must_use]
+    pub async fn categories_trending(&self) -> Result<categories::Response, Error> {
+        let url = format!(
+            "https://tenor.googleapis.com/v2/categories?key={}{}{}",
+            self.api_key,
+            self.locale.to_query_parameter(),
+            "&type=trending",
+        );
+
+        self.categories_request(url).await
+    }
+
+    /// Returns a vector of tagged categories that are featured with extra input parameters.
+    #[must_use]
+    pub async fn categories_featured_with_parameters(
         &self,
         parms: categories::Parameters,
     ) -> Result<categories::Response, Error> {
         let mut url = format!(
-            "https://tenor.googleapis.com/v2/categories?key={}{}",
+            "https://tenor.googleapis.com/v2/categories?key={}{}{}",
             self.api_key,
             self.locale.to_query_parameter(),
+            "&type=featured",
         );
 
         url.push_str(&format!("&client_key={}", &parms.client_key));
-        url.push_str(&parms.r#type.to_query_parameter());
+        url.push_str(&parms.content_filter.to_query_parameter());
+
+        self.categories_request(url).await
+    }
+
+    /// Returns a vector of tagged categories that are trending with extra input parameters.
+    #[must_use]
+    pub async fn categories_trending_with_parameters(
+        &self,
+        parms: categories::Parameters,
+    ) -> Result<categories::Response, Error> {
+        let mut url = format!(
+            "https://tenor.googleapis.com/v2/categories?key={}{}{}",
+            self.api_key,
+            self.locale.to_query_parameter(),
+            "&type=trending",
+        );
+
+        url.push_str(&format!("&client_key={}", &parms.client_key));
         url.push_str(&parms.content_filter.to_query_parameter());
 
         self.categories_request(url).await
@@ -57,7 +94,8 @@ impl Tenor {
         Ok(obj)
     }
 
-    /// Returns the featured gifs of the hour, have recalled every hour and cache contents.
+    /// Returns the featured stickers of the hour, have recalled every hour and cache contents.
+    #[must_use]
     pub async fn featured(&self) -> Result<search::Response, Error> {
         let url = format!(
             "https://tenor.googleapis.com/v2/featured?key={}{}",
@@ -68,6 +106,7 @@ impl Tenor {
     }
 
     // Continue from where feature left off, use the `next` field as the input for `position`.
+    #[must_use]
     pub async fn featured_with_position(
         &self,
         position: String,
@@ -81,7 +120,8 @@ impl Tenor {
         self.featured_request(url).await
     }
 
-    /// Return the featured gifs with extra parameters of the hour, have recalled every hour and cache contents.
+    /// Return the featured stickers with extra parameters of the hour, have recalled every hour and cache contents.
+    #[must_use]
     pub async fn featured_with_parameters(
         &self,
         parms: featured::Parameters,
@@ -130,6 +170,7 @@ impl Tenor {
     }
 
     /// Searchs Tenor with the given query.
+    #[must_use]
     pub async fn search(&self, query: String) -> Result<search::Response, Error> {
         let url = format!(
             "https://tenor.googleapis.com/v2/search?q={}&key={}{}",
@@ -142,6 +183,7 @@ impl Tenor {
     }
 
     /// Continue searching Tenor with the given query, starting from where the last request ended.
+    #[must_use]
     pub async fn search_with_position(
         &self,
         query: String,
@@ -159,6 +201,7 @@ impl Tenor {
     }
 
     /// Searchs Tenor with the given query with extra parameters.
+    #[must_use]
     pub async fn search_with_parameters(
         &self,
         query: String,
@@ -212,21 +255,21 @@ impl Tenor {
         Ok(obj)
     }
 
-    /// Returns the hourly tending content.
-    pub async fn trending(&self) -> Result<trending::Response, Error> {
+    /// Returns the hourly tending search terms.
+    #[must_use]
+    pub async fn trending_terms(&self) -> Result<trending::Response, Error> {
         let url = format!(
             "https://tenor.googleapis.com/v2/trending_terms?key={}{}",
             self.api_key,
             self.locale.to_query_parameter(),
         );
 
-        println!("url {}", &url);
-
         self.trending_request(url).await
     }
 
-    /// Returns the hourly tending content with extra parameters.
-    pub async fn trending_with_parameters(
+    /// Returns the hourly tending search terms with extra parameters.
+    #[must_use]
+    pub async fn trending_terms_with_parameters(
         &self,
         parms: trending::Parameters,
     ) -> Result<trending::Response, Error> {

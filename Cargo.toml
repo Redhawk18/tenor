@@ -1,11 +1,13 @@
 [package]
 name = "tenor"
 description = "Rust api for Tenor.com"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 categories = [ "api-bindings", "web-programming" ] 
-keywords = [ "api", "google", "tenor" ]
 license = "MIT"
+keywords = [ "api", "google", "tenor" ]
+repository = "https://github.com/Redhawk18/tenor"
+rust-version = "1.85" # Because of 2024 edition
 
 [dev-dependencies]
 dotenv = "0.15.0"

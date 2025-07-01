@@ -5,16 +5,14 @@ pub mod search;
 pub mod tenor;
 pub mod trending;
 
-use std::fmt;
-
-pub use codes_iso_639::part_1::LanguageCode;
-pub use codes_iso_3166::part_1::CountryCode;
-
-pub use tenor::Tenor;
-
 #[cfg(test)]
 mod tests;
 
+pub use codes_iso_639::part_1::LanguageCode;
+pub use codes_iso_3166::part_1::CountryCode;
+pub use tenor::Tenor;
+
+use std::{fmt, sync::Arc};
 use thiserror::Error;
 
 pub type Limit = u8;
@@ -26,12 +24,24 @@ pub const DEFAULT_LIMIT: Limit = 20;
 pub const MAX_LIMIT: Limit = 50;
 
 /// Error.
-#[derive(Error, Debug)]
+#[derive(Error, Debug, Clone)]
 pub enum Error {
     #[error(transparent)]
-    Request(#[from] reqwest::Error),
+    Request(Arc<reqwest::Error>),
     #[error(transparent)]
-    Serialization(#[from] serde_json::Error),
+    Serialization(Arc<serde_json::Error>),
+}
+
+impl From<reqwest::Error> for Error {
+    fn from(value: reqwest::Error) -> Self {
+        Error::Request(Arc::new(value))
+    }
+}
+
+impl From<serde_json::Error> for Error {
+    fn from(value: serde_json::Error) -> Self {
+        Error::Serialization(Arc::new(value))
+    }
 }
 
 /// Filter the Response Objects to only include GIFs with aspect ratios that fit within the selected range.
