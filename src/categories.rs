@@ -6,40 +6,25 @@ use crate::ContentFilter;
 #[derive(Debug, Default)]
 pub struct Parameters {
     pub client_key: String,
-    pub r#type: Type,
     pub content_filter: ContentFilter,
-}
-
-/// <https://developers.google.com/tenor/guides/endpoints#supported-types-categories>
-#[derive(Debug, Default)]
-pub enum Type {
-    #[default]
-    Featured,
-    Trending,
-}
-
-impl Type {
-    pub(crate) fn to_query_parameter(&self) -> String {
-        format!(
-            "&type={}",
-            match self {
-                Type::Featured => "featured",
-                Type::Trending => "trending",
-            }
-        )
-    }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Response {
+    /// Language of the returned content.
     pub locale: LanguageCode,
+    /// All the [`Tag`]s found.
     pub tags: Vec<Tag>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Tag {
+    /// The term, example: "excited".
     pub searchterm: String,
+    /// Image api path.
     pub path: String,
+    /// Full url of the gif.
     pub image: String,
+    /// The name, example: "#excited".
     pub name: String,
 }

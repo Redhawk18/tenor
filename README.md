@@ -17,6 +17,8 @@ async fn search_tenor() {
 
 ## Roadmap
 endpoints
+* [ ] request errors :P
+* [ ] remove unneeded `String`s in favor of unowned `&str`s 
 * [ ] Search Suggestions
 * [ ] Autocomplete
 * [ ] Register Share

@@ -7,12 +7,12 @@ use crate::*;
 
 #[tokio::test]
 async fn categories() {
-    assert!(dotenv().is_ok());
+    let _ = dotenv();
     let tenor = tenor::Tenor::new(
         env::var("API_KEY").expect("Failed to find env file"),
         Locale::default(),
     );
-    let response = tenor.categories().await;
+    let response = tenor.categories_featured().await;
 
     dbg!("{}", &response);
     assert!(response.is_ok())
@@ -20,7 +20,7 @@ async fn categories() {
 
 #[tokio::test]
 async fn featured() {
-    assert!(dotenv().is_ok());
+    let _ = dotenv();
     let tenor = tenor::Tenor::new(
         env::var("API_KEY").expect("Failed to find env file"),
         Locale::default(),
@@ -33,7 +33,7 @@ async fn featured() {
 
 #[tokio::test]
 async fn search() {
-    assert!(dotenv().is_ok());
+    let _ = dotenv();
     let tenor = tenor::Tenor::new(
         env::var("API_KEY").expect("Failed to find env file"),
         Locale::default(),
@@ -46,7 +46,7 @@ async fn search() {
 
 #[tokio::test]
 async fn search_parameters() {
-    assert!(dotenv().is_ok());
+    let _ = dotenv();
     let tenor = tenor::Tenor::new(
         env::var("API_KEY").expect("Failed to find env file"),
         Locale::new(LanguageCode::Ja, CountryCode::JP),
@@ -70,13 +70,13 @@ async fn search_parameters() {
 
 #[tokio::test]
 async fn trending() {
-    assert!(dotenv().is_ok());
+    let _ = dotenv();
 
     let tenor = tenor::Tenor::new(
         env::var("API_KEY").expect("Failed to find env file"),
         Locale::default(),
     );
-    let response = tenor.trending().await;
+    let response = tenor.trending_terms().await;
 
     dbg!("{}", &response);
     assert!(response.is_ok())
