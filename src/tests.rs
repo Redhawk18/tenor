@@ -49,7 +49,7 @@ async fn search_parameters() {
     let _ = dotenv();
     let tenor = tenor::Tenor::new(
         env::var("API_KEY").expect("Failed to find env file"),
-        Locale::new(LanguageCode::Ja, CountryCode::JP),
+        Locale::new(Language::Japanese, CountryCode::JP),
     );
 
     let parms = search::Parameters {

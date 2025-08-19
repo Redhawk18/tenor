@@ -8,8 +8,8 @@ pub mod trending;
 #[cfg(test)]
 mod tests;
 
-pub use codes_iso_639::part_1::LanguageCode;
 pub use codes_iso_3166::part_1::CountryCode;
+use iso_639::part1::Language;
 pub use tenor::Tenor;
 
 use std::{fmt, sync::Arc};
@@ -102,12 +102,12 @@ impl ContentFilter {
 /// The default value is en_US.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Locale {
-    language: LanguageCode,
+    language: Language,
     country: CountryCode,
 }
 
 impl Locale {
-    pub fn new(language: LanguageCode, country: CountryCode) -> Self {
+    pub fn new(language: Language, country: CountryCode) -> Self {
         Self { language, country }
     }
 
@@ -123,7 +123,7 @@ impl Locale {
 impl Default for Locale {
     fn default() -> Self {
         Self {
-            language: LanguageCode::En,
+            language: Language::English,
             country: CountryCode::US,
         }
     }

@@ -162,20 +162,11 @@ dependencies = [
 
 [[package]]
 name = "codes-agency"
-version = "0.1.8"
-source = "git+https://github.com/Redhawk18/rust-codes.git#5a7a6769e3d4389c0cd819d42c3ee5d74b386679"
-dependencies = [
- "codes-common 0.1.9 (git+https://github.com/Redhawk18/rust-codes.git)",
- "serde",
-]
-
-[[package]]
-name = "codes-agency"
 version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "809a7790247f949cc35a1f9b497fd13a79ee330e34f049c6e837685363d20faf"
 dependencies = [
- "codes-common 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
+ "codes-common",
  "serde",
 ]
 
@@ -191,38 +182,16 @@ dependencies = [
 ]
 
 [[package]]
-name = "codes-common"
-version = "0.1.9"
-source = "git+https://github.com/Redhawk18/rust-codes.git#5a7a6769e3d4389c0cd819d42c3ee5d74b386679"
-dependencies = [
- "csv",
- "tera",
- "tracing",
-]
-
-[[package]]
 name = "codes-iso-3166"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4d9f6ddc6481f15051ec704400c275b5135896006edd9342db7d0a116c70fb4a"
 dependencies = [
- "codes-agency 0.1.9",
- "codes-common 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
+ "codes-agency",
+ "codes-common",
  "csv",
  "lazy_static",
  "regex",
- "serde",
- "tera",
-]
-
-[[package]]
-name = "codes-iso-639"
-version = "0.1.5"
-source = "git+https://github.com/Redhawk18/rust-codes.git#5a7a6769e3d4389c0cd819d42c3ee5d74b386679"
-dependencies = [
- "codes-agency 0.1.8",
- "codes-common 0.1.9 (git+https://github.com/Redhawk18/rust-codes.git)",
- "csv",
  "serde",
  "tera",
 ]
@@ -827,6 +796,27 @@ checksum = "dbc5ebe9c3a1a7a5127f920a418f7585e9e758e911d0466ed004f393b0e380b2"
 dependencies = [
  "memchr",
  "serde",
+]
+
+[[package]]
+name = "iso_639"
+version = "0.1.0"
+source = "git+https://github.com/Redhawk18/iso_639.git?branch=master#c9a237cec0730f82d60f25a131ddc1b3f097324a"
+dependencies = [
+ "iso_639_macros",
+ "serde",
+]
+
+[[package]]
+name = "iso_639_macros"
+version = "0.1.0"
+source = "git+https://github.com/Redhawk18/iso_639.git?branch=master#c9a237cec0730f82d60f25a131ddc1b3f097324a"
+dependencies = [
+ "csv",
+ "proc-macro2",
+ "quote",
+ "serde",
+ "syn",
 ]
 
 [[package]]
@@ -1577,11 +1567,11 @@ dependencies = [
 
 [[package]]
 name = "tenor"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "codes-iso-3166",
- "codes-iso-639",
  "dotenv",
+ "iso_639",
  "reqwest",
  "secrecy",
  "serde",

@@ -1,4 +1,4 @@
-use codes_iso_639::part_1::LanguageCode;
+use iso_639::part1::Language;
 use serde::{Deserialize, Serialize};
 
 use crate::ContentFilter;
@@ -12,7 +12,7 @@ pub struct Parameters {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Response {
     /// Language of the returned content.
-    pub locale: LanguageCode,
+    pub locale: Language,
     /// All the [`Tag`]s found.
     pub tags: Vec<Tag>,
 }
